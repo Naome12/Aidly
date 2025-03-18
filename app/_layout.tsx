@@ -1,39 +1,34 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
-import { useFonts } from 'expo-font';
-import { Stack } from 'expo-router';
-import * as SplashScreen from 'expo-splash-screen';
-import { StatusBar } from 'expo-status-bar';
-import { useEffect } from 'react';
-import 'react-native-reanimated';
+import { SplashScreen, Stack } from "expo-router";
 
-import { useColorScheme } from '@/hooks/useColorScheme';
-
-// Prevent the splash screen from auto-hiding before asset loading is complete.
-SplashScreen.preventAutoHideAsync();
+import './globals.css'
+import { useEffect } from "react";
+import {useFonts} from "expo-font"
+import GlobalProvider from "@/lib/globalProvider";
 
 export default function RootLayout() {
-  const colorScheme = useColorScheme();
-  const [loaded] = useFonts({
-    SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
-  });
+  const [fontsLoaded] = useFonts ({
+    "Amaranth-Bold" : require('../assets/fonts/Amaranth-Bold.ttf'),
+    "Amaranth-BoldItalic" : require('../assets/fonts/Amaranth-BoldItalic.ttf'),
+    "Amaranth-Italic" : require('../assets/fonts/Amaranth-Italic.ttf'),
+    "Amaranth-Regular" : require('../assets/fonts/Amaranth-Regular.ttf'),
+    "NunitoSans-Italic" : require('../assets/fonts/NunitoSans-Italic-VariableFont_YTLC,opsz,wdth,wght.ttf'),
+    "NunitoSans-Regular" : require('../assets/fonts/NunitoSans-VariableFont_YTLC,opsz,wdth,wght.ttf'),
+    
+  })
 
   useEffect(() => {
-    if (loaded) {
+    if(fontsLoaded) {
       SplashScreen.hideAsync();
     }
-  }, [loaded]);
+  }, [fontsLoaded])
 
-  if (!loaded) {
+  if(!fontsLoaded) {
     return null;
   }
 
-  return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="+not-found" />
-      </Stack>
-      <StatusBar style="auto" />
-    </ThemeProvider>
-  );
+  return  (
+    <GlobalProvider>
+      <Stack screenOptions={{headerShown: false }}/>;
+    </GlobalProvider>
+  )
 }
