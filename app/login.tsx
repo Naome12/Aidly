@@ -5,7 +5,7 @@ import { login, signUp } from "@/lib/appwrite";
 import { useRouter } from "expo-router";
 import { useGlobalContext } from "@/lib/globalProvider";
 
-const Signup = () => {
+const Login = () => {
   const router = useRouter();
   const { isLogged, loading: userLoading } = useGlobalContext();
 
@@ -35,15 +35,7 @@ const Signup = () => {
     }
   };
 
-  const handleSignup = async () => {
-    if (password !== confirmPassword) {
-      alert("Passwords do not match!");
-      return;
-    }
-    if (!acceptedTerms) {
-      alert("You must accept the terms & policies.");
-      return;
-    }
+  const handleLogin = async () => {
     setLoading(true);
     const success = await signUp(email, password, username);
     setLoading(false);
@@ -65,16 +57,21 @@ const Signup = () => {
       <ScrollView contentContainerClassName="flex-grow py-5">
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View className="flex-1 justify-between p-6">
-        <View className="mt-2.5 p-4">
+        <View className="mt-2.5 p-4 items-center">
         <Text 
-        className="text-red-100 text-4xl font-amaranth-bold"
+        className="text-red-100 text-5xl font-amaranth-bold"
+        style={{
+          textShadowColor: 'rgba(254, 27, 27, 0.4)', // Color of the shadow (dark shadow)
+          textShadowOffset: { width: 2, height: 2 }, // Position of the shadow
+          textShadowRadius: 3, // Blur radius for the shadow
+        }}
         >
-          AI Meets Healthcare
+          Welcome Back
         </Text>
-        <Text className="text-primary-100 mb-4 text-2xl font-amaranth-italic">Create your account</Text>
+        <Text className="text-primary-100 mb-4 text-3xl font-amaranth-italic">Login to your account</Text>
         </View>
 
-        <View>
+        <View className="">
         <Text className="font-nunitosans font-bold text-white text-xl">Email</Text>
         <TextInput
           placeholder="e.g. johndoe@example.com"
@@ -82,15 +79,6 @@ const Signup = () => {
           className="bg-black text-primary-100 p-3 rounded-2xl my-2.5 font-extralight"
           value={email}
           onChangeText={setEmail}
-          />
-
-        <Text className="font-nunitosans font-bold text-white text-xl">Username</Text>
-        <TextInput
-          placeholder="e.g. John Doe"
-          placeholderTextColor="#AEA1E9"
-          className="bg-black text-primary-100 p-3 rounded-2xl my-2.5 font-extralight"
-          value={username}
-          onChangeText={setUsername}
           />
 
         <Text className="font-nunitosans font-bold text-white text-xl ">Password</Text>
@@ -103,54 +91,25 @@ const Signup = () => {
           onChangeText={setPassword}
           />
 
-        <Text className="font-nunitosans font-bold text-white text-xl">Confirm Password</Text>
-        <TextInput
-          placeholder="********"
-          placeholderTextColor="#AEA1E9"
-          secureTextEntry
-          className="bg-black text-primary-100 p-3 rounded-2xl  my-2.5 font-extralight"
-          value={confirmPassword}
-          onChangeText={setConfirmPassword}
-          />
-
-
-        <CheckBox
-          title="I accept the terms & policies"
-          checked={acceptedTerms}
-          onPress={() => setAcceptedTerms(!acceptedTerms)}
-          containerStyle={{ backgroundColor: "black", borderWidth: 0 }}
-          textStyle={{ color: "white" }}
-          />
-          
         </View>
-        <View>
 
         <TouchableOpacity
           className="bg-red-500 p-4 rounded-3xl mt-4"
-          onPress={handleSignup}
+          onPress={() => router.replace('/selection')}
           disabled={loading}
-          >
+        >
           <Text className="text-center text-white font-bold">
-            {loading ? "Signing Up..." : "Sign Up"}
+            {loading ? "Logging in..." : "Login"}
           </Text>
         </TouchableOpacity>
-        <Text className="text-white text-center font-bold">OR</Text>
 
-        <TouchableOpacity
-          className="p-4 mt-2 flex flex-row items-center bg-white rounded-3xl"
-          onPress={handleGoogleLogin}
-          >
-          <Text className="text-white">Or Sign Up with </Text>
-          <Text className="text-blue-400 font-bold">Continue with Google</Text>
-        </TouchableOpacity>
-        </View>
 
         <TouchableOpacity
           className="mt-4 flex flex-row justify-center items-center"
-          onPress={() => router.replace("/login")}
+          onPress={() => router.replace("/sign-up")}
           >
-          <Text className="text-primary-100">Drag right to</Text>
-          <Text className="text-red-100 font-bold"> Log In</Text>
+          <Text className="text-primary-100">Drag left to</Text>
+          <Text className="text-red-100 font-bold"> Sign up</Text>
         </TouchableOpacity>
       </View>
     </TouchableWithoutFeedback>
@@ -159,4 +118,4 @@ const Signup = () => {
   );
 };
 
-export default Signup;
+export default Login;
