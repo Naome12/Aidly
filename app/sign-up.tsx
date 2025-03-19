@@ -62,12 +62,12 @@ const Signup = () => {
 
   return (
     <SafeAreaView className="flex-1 bg-black-100">
-      <ScrollView contentContainerClassName="flex-grow py-5">
+      <ScrollView contentContainerClassName="flex-grow py-3">
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View className="flex-1 justify-between p-6">
         <View className="mt-2.5 p-4">
         <Text 
-        className="text-red-100 text-4xl font-amaranth-bold"
+        className="text-red-100 text-4xl font-amaranth-bold shadow-rose-300"
         >
           AI Meets Healthcare
         </Text>

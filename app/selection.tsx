@@ -1,6 +1,13 @@
 import React, { useState } from "react";
-import { View, Text, TouchableOpacity, ScrollView, SafeAreaView } from "react-native";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  ScrollView,
+  SafeAreaView,
+} from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import { router } from "expo-router";
 
 const SelectionScreen = () => {
   const [selectedLanguage, setSelectedLanguage] = useState("English");
@@ -35,7 +42,7 @@ const SelectionScreen = () => {
     <SafeAreaView className="flex-1 bg-black-100 px-4 pt-10">
       {/* Header */}
       <View className="flex-row items-center justify-between">
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => router.replace("/login")}>
           <Ionicons name="arrow-back" size={24} color="white" />
         </TouchableOpacity>
         <Text className="text-white text-lg font-bold">Select Language</Text>
@@ -68,13 +75,15 @@ const SelectionScreen = () => {
         </View>
 
         {/* Age Group Section */}
-        <Text className="text-white text-lg font-bold mt-6 mb-2">Age Groups</Text>
+        <Text className="text-white text-lg font-bold mt-6 mb-2">
+          Age Groups
+        </Text>
         <View className="flex-wrap flex-row">
           {ageGroups.map((group) => (
             <TouchableOpacity
               key={group}
               className={`px-4 py-2 rounded-lg m-1 ${
-                selectedAgeGroup === group ? "bg-red-500" : "bg-gray-800"
+                selectedAgeGroup === group ? "bg-red-100" : "bg-black-200"
               }`}
               onPress={() => setSelectedAgeGroup(group)}
             >
@@ -96,7 +105,7 @@ const SelectionScreen = () => {
             <TouchableOpacity
               key={gender.label}
               className={`px-6 py-2 rounded-lg ${
-                selectedGender === gender.label ? "bg-red-100" : "bg-gray-200"
+                selectedGender === gender.label ? "bg-red-100" : "bg-black-200"
               }`}
               onPress={() => setSelectedGender(gender.label)}
             >
@@ -113,10 +122,13 @@ const SelectionScreen = () => {
 
         {/* Buttons */}
         <View className="flex-row justify-between mt-8">
-          <TouchableOpacity className="bg-gray-200 px-6 py-3 rounded-lg">
+          <TouchableOpacity className="bg-black-200 px-6 py-3 rounded-lg">
             <Text className="text-white font-bold">Reset</Text>
           </TouchableOpacity>
-          <TouchableOpacity className="bg-red-100 px-6 py-3 rounded-lg">
+          <TouchableOpacity
+            className="bg-red-100 px-6 py-3 rounded-lg"
+            onPress={() => router.replace("/")}
+          >
             <Text className="text-white font-bold">Apply</Text>
           </TouchableOpacity>
         </View>
