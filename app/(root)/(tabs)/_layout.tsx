@@ -15,7 +15,7 @@ const TabIcon = ({ focused, icon, title }: TabProps) => {
       <Ionicons name={icon} size={24} color={focused ? "#ff7417" : "#666876"} />
       <Text
         className={`${
-          focused ? "text-orange-500 font-bold" : "text-gray-400 font-medium"
+          focused ? "text-red-100 font-bold" : "text-gray-400 font-medium"
         } text-xs w-full text-center mt-1`}
       >
         {title}

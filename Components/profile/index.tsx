@@ -2,6 +2,7 @@ import { View, Text, Image, TouchableOpacity, Alert } from "react-native";
 import ProfileOption from "./ProfileOption";
 import { useGlobalContext } from "@/lib/globalProvider";
 import { logout } from "@/lib/appwrite";
+import { Ionicons } from "@expo/vector-icons";
 
 type ProfileDetailsProps = {
     setScreen: (screen: "preference" | "edit-info" | "invite" | "index") => void;
@@ -22,6 +23,11 @@ export default function ProfileDetails({ setScreen }:ProfileDetailsProps) {
     }
   return (
     <View className="flex-1 bg-black px-6 pt-12">
+
+<TouchableOpacity onPress={() => setScreen("preference")} className="mb-4">
+        <Ionicons name="chevron-back-outline" size={28} color="white" />
+      </TouchableOpacity>
+        
       <View className="items-center">
       <Image source={{uri: user?.avatar}} className="size-12 rounded-full"  />
         <Text className="text-white text-xl font-bold mt-2">{user?.name}</Text>
