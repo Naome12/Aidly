@@ -1,6 +1,7 @@
 import { View, Text,TouchableOpacity } from "react-native";
 import ProfileOption from "./ProfileOption";
 import { Ionicons } from "@expo/vector-icons";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 
 
@@ -11,7 +12,7 @@ type PreferencesProps = {
 
 export default function Preferences({ setScreen }: PreferencesProps) {
   return (
-    <View className="flex-1 bg-black px-6 pt-12">
+    <SafeAreaView className="flex-1 bg-black px-6 pt-12">
       <View className="flex-row ">
 
       <TouchableOpacity onPress={() => setScreen("preference")} className="mb-4">
@@ -28,6 +29,6 @@ export default function Preferences({ setScreen }: PreferencesProps) {
         <ProfileOption label="Payment Methods" icon="credit-card" extra="Add your credit/ Credit Cards" />
         <ProfileOption label="Invite Your Friends" icon="users" onPress={() => setScreen("invite")} extra="Get $3 for each invitation" />
       </View>
-    </View>
+    </SafeAreaView>
   );
 }

@@ -49,7 +49,7 @@ type ProfileOptionProps = {
 
 export default function ProfileOption({ label, icon, extra, isLogout, onPress }: ProfileOptionProps) {
   return (
-    <TouchableOpacity className="flex-row justify-between items-center p-3 bg-gray-900 rounded-lg" onPress={onPress}>
+    <TouchableOpacity className="flex-row justify-between items-center p-3  rounded-lg" onPress={onPress}>
       <View className="flex-row items-center">
         <FontAwesome name={icon} size={22} color='red' />
         <View className="ml-4 px-4">

@@ -1,6 +1,7 @@
 import { View, Text, TouchableOpacity } from "react-native";
 import InputField from "./InputField";
 import { Ionicons } from "@expo/vector-icons"; // Ensure you have @expo/vector-icons installed
+import { SafeAreaView } from "react-native-safe-area-context";
 
 type EditInfoProps = {
   setScreen: (screen: "preference" | "edit-info" | "invite" | "index") => void;
@@ -8,7 +9,7 @@ type EditInfoProps = {
 
 export default function EditInfo({ setScreen }: EditInfoProps) {
   return (
-    <View className="flex-1 bg-black px-6 pt-12">
+    <SafeAreaView className="flex-1 bg-black-100 px-6">
       {/* Back Button */}
       <View className="flex-row ">
 
@@ -48,6 +49,6 @@ export default function EditInfo({ setScreen }: EditInfoProps) {
       <TouchableOpacity className="bg-red-600 p-4 rounded-lg mt-6" onPress={() => setScreen("preference")}>
         <Text className="text-red-100 text-center text-lg">Save Changes</Text>
       </TouchableOpacity>
-    </View>
+    </SafeAreaView>
   );
 }

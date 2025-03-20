@@ -61,7 +61,7 @@ const VoiceScreen = () => {
           onPressIn={handlePressIn}
           onPressOut={handlePressOut}
           onPress={handleInterrupt}
-          className="w-24 h-24 rounded-full  bg-gray-700"
+          className="w-24 h-24 rounded-full  "
         >
           <Image
             source={

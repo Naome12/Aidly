@@ -3,6 +3,7 @@ import ProfileOption from "./ProfileOption";
 import { useGlobalContext } from "@/lib/globalProvider";
 import { logout } from "@/lib/appwrite";
 import { Ionicons } from "@expo/vector-icons";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 type ProfileDetailsProps = {
   setScreen: (screen: "preference" | "edit-info" | "invite" | "index") => void;
@@ -24,7 +25,7 @@ export default function ProfileDetails({ setScreen }: ProfileDetailsProps) {
   };
 
   return (
-    <View className="flex-1 bg-black px-6 pt-12">
+    <SafeAreaView className="flex-1 bg-black px-6 pt-12">
       <TouchableOpacity
         onPress={() => setScreen("preference")}
         className="mb-4 flex-row items-center"
@@ -63,6 +64,6 @@ export default function ProfileDetails({ setScreen }: ProfileDetailsProps) {
         <ProfileOption label="Customer Support" icon="lock" />
         <ProfileOption label="Logout" icon="lock" onPress={handleLogout} />
       </View>
-    </View>
+    </SafeAreaView>
   );
 }
