@@ -4,7 +4,8 @@
     "slug": "Aidly",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/splash-icon.png",
+    "icon": "./assets/images/aidly.png",
+    "backgroundColor": "#0D0D0D",
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
@@ -27,7 +28,7 @@
       [
         "expo-splash-screen",
         {
-          "image": "./assets/images/splash-icon.png",
+          "image": "./assets/images/a.png",
           "backgroundColor": "#0D0D0D"
         }
       ]

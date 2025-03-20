@@ -48,7 +48,7 @@ export default function ProfileDetails({ setScreen }: ProfileDetailsProps) {
           resizeMode="cover"
         />
         <Text className="text-red-100 text-2xl font-bold mt-2 capitalize">
-        {user?.name?.charAt(0).toUpperCase() + user?.name?.slice(1)}
+        {user?.name}
         </Text>
         <Text className="text-gray-400 text-sm">{user?.email}</Text>
       </View>

@@ -5,6 +5,8 @@ import profile from "@/assets/images/Profile.png"
 import speak from "@/assets/images/speak.jpg"
 import mic from "@/assets/images/mic.png"
 import aiSpeaking from "@/assets/images/aiSpeaking.png"
+import aidly from "@/assets/images/aidly.png"
+import aidlyLogo from "@/assets/images/a.png"
 
 export default {
   video,
@@ -13,5 +15,7 @@ export default {
   profile,
   speak,
   mic,
-  aiSpeaking
+  aiSpeaking,
+  aidly,
+  aidlyLogo
 };
