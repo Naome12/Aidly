@@ -1,6 +1,7 @@
 import images from "@/constants/images";
-import { View, Text, TouchableOpacity, Image } from "react-native";
+import { View, Text, TouchableOpacity, Image, ScrollView } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 type InviteFriendProps = {
     setScreen: (screen: "preference" | "edit-info" | "invite" | "index") => void;
@@ -9,16 +10,21 @@ type InviteFriendProps = {
 
 export default function InviteFriend({ setScreen }:InviteFriendProps) {
   return (
-    <View className="flex-1 justify-between items-center">
+    <SafeAreaView className="flex-1">
         <TouchableOpacity onPress={() => setScreen("preference")} className="mb-4">
-        <Ionicons name="chevron-back-outline" size={28} color="white" />
+          <View className="bg-black-300 size-6 ">
+        <Ionicons name="chevron-back-outline" size={28} color="#757474" />
+          </View>
       </TouchableOpacity>
-        <View>
-            <Text className="text-red-100 font-nunitosans font-bold">Invite Friends</Text>
-            <Image source={images.friends}/>
-        </View>
+      <ScrollView >
+        <View className="flex-1 justify-between items-center">
 
-        <View>
+        <View className="mb-6">
+            <Text className="text-red-100 font-nunitosans font-bold">Invite Friends</Text>
+        </View>
+            <Image source={images.friends}/>
+
+        <View className="items-center">
       <Text className="text-red-100 text-2xl font-bold">Refer A Friend</Text>
       <Text className="text-primary-100 text-center mt-2">Share Your Promo Code & Get $3 for Each Friend</Text>
         </View>
@@ -27,9 +33,8 @@ export default function InviteFriend({ setScreen }:InviteFriendProps) {
         <Text className="text-red-100 text-lg">BrainAiPartnerMR</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity className="bg-red-500 p-4 rounded-lg mt-6" onPress={() => setScreen("preference")}>
-        <Text className="text-white text-lg">Back</Text>
-      </TouchableOpacity>
-    </View>
+        </View>
+      </ScrollView>
+    </SafeAreaView>
   );
 }

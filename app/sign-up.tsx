@@ -45,16 +45,16 @@ const Signup = () => {
       return;
     }
     setLoading(true);
-    const success = await signUp(email, password, username);
-    setLoading(false);
+    // const success = await signUp(email, password, username);
+    // setLoading(false);
 
-    if (success) {
-      alert("Account created successfully! Logging in...");
-      await login();
+    // if (success) {
+    //   alert("Account created successfully! Logging in...");
+    //   await login();
       router.replace("/");
-    } else {
-      alert("Signup failed. Try again.");
-    }
+    // } else {
+    //   alert("Signup failed. Try again.");
+    // }
   };
 
 

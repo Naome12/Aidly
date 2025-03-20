@@ -29,16 +29,17 @@ export default function ProfileDetails({ setScreen }:ProfileDetailsProps) {
       </TouchableOpacity>
         
       <View className="items-center">
-      <Image source={{uri: user?.avatar}} className="size-12 rounded-full"  />
+        <Text className="font-nunitosans text-red-100">Profile</Text>
+      <Image source={{uri: user?.avatar}} className="size-5 rounded-full"  />
         <Text className="text-white text-xl font-bold mt-2">{user?.name}</Text>
         <Text className="text-gray-400 text-sm">{user?.email}</Text>
       </View>
 
       <View className="mt-8 space-y-6">
-        <ProfileOption label="Preferences" icon="cog" onPress={() => setScreen("preference")} />
+        <ProfileOption label="Preferences" icon="lock" onPress={() => setScreen("preference")} />
         <ProfileOption label="Account Security" icon="lock" extra="Excellent" />
-        <ProfileOption label="Customer Support" icon="help-circle-outline" />
-        <ProfileOption label="Logout" icon="log-out-outline" onPress={handleLogout}/>
+        <ProfileOption label="Customer Support" icon="lock" />
+        <ProfileOption label="Logout" icon="lock" onPress={handleLogout}/>
       </View>
     </View>
   );

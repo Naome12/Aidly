@@ -59,12 +59,12 @@ const TabsLayout = () => {
         }}
       />
       <Tabs.Screen
-        name="analysis"
+        name="symp-analysis"
         options={{
           title: "Symp-Analysis",
           headerShown: false,
           tabBarIcon: ({ focused }) => (
-            <TabIcon icon="pulse-outline" focused={focused} title="Analysis" />
+            <TabIcon icon="scan-outline" focused={focused} title="Analysis" />
           ),
         }}
       />

@@ -1,5 +1,6 @@
 import { View, Text, useWindowDimensions, ImageBackground, TouchableOpacity } from 'react-native';
 import React from 'react';
+import { router } from 'expo-router';
 
 const OnboardingItem = ({ item, index, totalSlides, onNext }: { item: any; index: number; totalSlides: number; onNext: () => void }) => {
   const { width } = useWindowDimensions();
@@ -10,15 +11,18 @@ const OnboardingItem = ({ item, index, totalSlides, onNext }: { item: any; index
         {/* Header Section */}
         <View className="flex-row justify-between p-3">
           <Text className="text-white">{`${index + 1}/${totalSlides}`}</Text>
+          <TouchableOpacity onPress={()=> router.replace('/(root)/(tabs)/profile')}>
+
           <Text className="font-nunitosans text-red-100 font-bold">Skip</Text>
+          </TouchableOpacity>
         </View>
 
         {/* Content Section */}
-        <View style={{ marginTop: 15, width }} className="flex-1 justify-center items-center">
+        <View style={{ marginTop: 140, width }} className="flex-1 justify-center items-center">
           <Text className="text-red-100 font-bold font-nunitosans text-xl text-center pt-10">
             {item.title}
           </Text>
-          <Text className="text-white pt-[30px] font-nunitosans text-sm text-center">
+          <Text className="text-white font-nunitosans text-sm text-center">
             {item.description}
           </Text>
         </View>

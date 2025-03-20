@@ -7,12 +7,12 @@ import ProfileDetails from "../../../Components/profile/index";
 import images from "@/constants/images";
 
 export default function ProfileTab() {
-  const [screen, setScreen] = useState("preferences");
+  const [screen, setScreen] = useState("edit-info");
 
   return (
     <ImageBackground source={images.profile} className="flex-1">
     <View className="flex-1">
-      {screen === "preferences" && <Preferences setScreen={setScreen} />}
+      {screen === "preference" && <Preferences setScreen={setScreen} />}
       {screen === "edit-info" && <EditInfo setScreen={setScreen} />}
       {screen === "invite" && <InviteFriend setScreen={setScreen} />}
       {screen === "index" && <ProfileDetails setScreen={setScreen} />}

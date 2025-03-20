@@ -2,7 +2,7 @@ import { View, Text, TextInput, TouchableOpacity } from "react-native";
 import { ReactNode } from "react";
 
 type InputFieldProps = {
-  label: string;
+  label?: string;
   leftIcon: ReactNode;
   rightIcon: ReactNode;
   placeholder: string;
@@ -12,7 +12,7 @@ type InputFieldProps = {
 export default function InputField({ label, leftIcon, rightIcon, placeholder, secure }: InputFieldProps) {
   return (
     <View className="w-full">
-      <Text className="text-gray-400 mb-1">{label}</Text>
+      <Text className="text-primary-100 mb-1">{label}</Text>
       <View className="flex-row items-center bg-gray-900 p-3 rounded-lg">
         {/* Left Icon */}
         <View className="mr-3">{leftIcon}</View>
@@ -20,9 +20,9 @@ export default function InputField({ label, leftIcon, rightIcon, placeholder, se
         {/* Text Input */}
         <TextInput
           placeholder={placeholder}
-          placeholderTextColor="gray"
+          placeholderTextColor="#AEA1E9"
           secureTextEntry={secure}
-          className="flex-1 text-white"
+          className="flex-1 text-white bg-black-300"
         />
         
         {/* Right Icon (Touchable for edit action) */}
