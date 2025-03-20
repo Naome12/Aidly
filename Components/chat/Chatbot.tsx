@@ -1,104 +1,192 @@
-// chat.tsx
-import React, { useState } from "react";
-import { View, Text, TextInput, TouchableOpacity, ScrollView, KeyboardAvoidingView, Platform } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { useNavigation } from "@react-navigation/native";
+import React, { useState, useEffect } from "react";
+import * as GoogleGenerativeAI from "@google/generative-ai";
+import {
+  View,
+  Text,
+  TextInput,
+  FlatList,
+  ActivityIndicator,
+  TouchableOpacity,
+  SafeAreaView,
+} from "react-native";
+import * as Speech from "expo-speech";
+import { FontAwesome } from "@expo/vector-icons";
+import { Entypo } from "@expo/vector-icons";
+import FlashMessage, { showMessage } from "react-native-flash-message";
 
-type RootStackParamList = {
-  Chat: undefined;
-  // Add other screens here if needed
-};
+const GeminiChat = () => {
+  const [messages, setMessages] = useState([]);
+  const [userInput, setUserInput] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [isSpeaking, setIsSpeaking] = useState(false);
+  const [showStopIcon, setShowStopIcon] = useState(false);
 
-type ChatScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, "Chat">;
+  const API_KEY = "AIzaSyCjAP08KIqM-bEEthOa2HvCaGsL_ok7uOs";
 
-type Message = {
-  id: number;
-  text: string;
-  sender: "user" | "ai";
-};
+  useEffect(() => {
+    const startChat = async () => {
+      try {
+        const genAI = new GoogleGenerativeAI.GoogleGenerativeAI(API_KEY);
+        const model = genAI.getGenerativeModel({ model: "gemini-pro" });
+        const prompt = "hello! ";
+        const result = await model.generateContent(prompt);
 
-const ChatScreen: React.FC = () => {
-  const navigation = useNavigation<ChatScreenNavigationProp>();
-  const [messages, setMessages] = useState<Message[]>([]);
-  const [inputText, setInputText] = useState<string>("");
+        console.log("API Response:", result);
+        const text = result.response ? result.response.text() : "Error fetching response";
+        showMessage({
+          message: "Welcome to Gemini Chat 🤖",
+          description: text,
+          type: "info",
+          icon: "info",
+          duration: 2000,
+        });
 
-  const handleSend = () => {
-    if (inputText.trim() === "") return;
+        setMessages([{ text, user: false }]);
+      } catch (error) {
+        console.log("Error fetching from API:", error);
+      }
+    };
+    startChat();
+  }, []);
 
-    const userMessage: Message = { id: messages.length + 1, text: inputText, sender: "user" };
-    setMessages([...messages, userMessage]);
-    setInputText("");
+  const sendMessage = async () => {
+    setLoading(true);
+    const userMessage = { text: userInput, user: true };
+    setMessages((prevMessages) => [...prevMessages, userMessage]);
 
-    // Simulate AI response
-    setTimeout(() => {
-      const aiMessage: Message = { id: messages.length + 2, text: getAIResponse(inputText), sender: "ai" };
-      setMessages((prevMessages) => [...prevMessages, aiMessage]);
-    }, 1000);
-  };
+    try {
+      const genAI = new GoogleGenerativeAI.GoogleGenerativeAI(API_KEY);
+      const model = genAI.getGenerativeModel({ model: "gemini-pro" });
+      const prompt = userMessage.text;
+      const result = await model.generateContent(prompt);
+      const text = result.response ? result.response.text() : "Error fetching response";
 
-  const getAIResponse = (userInput: string): string => {
-    const lowerInput = userInput.toLowerCase();
+      setMessages((prevMessages) => [...prevMessages, { text, user: false }]);
+      setLoading(false);
+      setUserInput("");
 
-    if (lowerInput.includes("headache")) {
-      return "I’m sorry to hear you’re dealing with a headache. To help you better, could you tell me what kind of headache you’re experiencing? For example, is it a tension headache, a migraine, or something else?";
-    } else if (lowerInput.includes("tension headache") || lowerInput.includes("neck feels tight")) {
-      return "For a tension headache, try to relax your neck and shoulders. Gentle stretching, a warm compress, or a massage might help. Staying hydrated and taking breaks from screens can also be beneficial.";
-    } else {
-      return "I’m here to assist with health-related questions. Please ask me something related to health.";
+      if (text && !isSpeaking) {
+        Speech.speak(text);
+        setIsSpeaking(true);
+        setShowStopIcon(true);
+      }
+    } catch (error) {
+      console.log("Error sending message:", error);
+      setLoading(false);
     }
   };
 
-  return (
-    <SafeAreaView className="flex-1 bg-gray-100">
-      <KeyboardAvoidingView
-        behavior={Platform.OS === "ios" ? "padding" : "height"}
-        className="flex-1"
-      >
-        <ScrollView className="flex-1 p-4">
-          {messages.map((message) => (
-            <View
-              key={message.id}
-              className={`mb-4 ${
-                message.sender === "user" ? "items-end" : "items-start"
-              }`}
-            >
-              <View
-                className={`p-3 rounded-lg ${
-                  message.sender === "user"
-                    ? "bg-blue-500"
-                    : "bg-gray-300"
-                }`}
-              >
-                <Text
-                  className={`text-sm ${
-                    message.sender === "user" ? "text-white" : "text-black"
-                  }`}
-                >
-                  {message.text}
-                </Text>
-              </View>
-            </View>
-          ))}
-        </ScrollView>
+  const toggleSpeech = () => {
+    console.log("isSpeaking", isSpeaking);
+    if (isSpeaking) {
+      Speech.stop();
+      setIsSpeaking(false);
+    } else {
+      Speech.speak(messages[messages.length - 1].text);
+      setIsSpeaking(true);
+    }
+  };
 
-        <View className="flex-row p-4 border-t border-gray-300 bg-white">
-          <TextInput
-            className="flex-1 p-2 border border-gray-300 rounded-lg mr-2"
-            placeholder="Type your message..."
-            value={inputText}
-            onChangeText={setInputText}
-          />
+  const ClearMessage = () => {
+    setMessages([]);
+    setIsSpeaking(false);
+  };
+
+  const renderMessage = ({ item }) => (
+    <View style={{ padding: 12, marginVertical: 8 }}>
+      {item.text ? (
+        <Text style={{ fontSize: 18, color: item.user ? "#3b82f6" : "#000000" }}>
+          {item.text}
+        </Text>
+      ) : (
+        <Text style={{ color: "#ef4444" }}>Error: No text</Text>
+      )}
+    </View>
+  );
+
+  return (
+    <SafeAreaView style={{ flex: 1 }}>
+      <View style={{ flex: 1, backgroundColor: "#ffffff", marginTop: 48 }}>
+        <FlatList
+          data={messages}
+          renderItem={renderMessage}
+          keyExtractor={(item, index) => index.toString()}
+          inverted
+          extraData={messages}
+        />
+        <View style={{ flexDirection: "row", alignItems: "center", padding: 12 }}>
           <TouchableOpacity
-            className="p-3 bg-blue-500 rounded-lg"
-            onPress={handleSend}
+            style={{
+              padding: 12,
+              backgroundColor: "#1f2937",
+              borderRadius: 9999,
+              height: 48,
+              width: 48,
+              justifyContent: "center",
+              alignItems: "center",
+              marginRight: 8,
+            }}
+            onPress={toggleSpeech}
           >
-            <Text className="text-white">Send</Text>
+            {isSpeaking ? (
+              <FontAwesome
+                name="microphone-slash"
+                size={24}
+                color="white"
+                style={{
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              />
+            ) : (
+              <FontAwesome
+                name="microphone"
+                size={24}
+                color="white"
+                style={{
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              />
+            )}
           </TouchableOpacity>
+          <TextInput
+            placeholder="Type a message"
+            onChangeText={setUserInput}
+            value={userInput}
+            onSubmitEditing={sendMessage}
+            style={{
+              flex: 1,
+              padding: 12,
+              backgroundColor: "#1f2937",
+              color: "#ffffff",
+              borderRadius: 8,
+              height: 48,
+            }}
+            placeholderTextColor="#ffffff"
+          />
+          {showStopIcon && (
+            <TouchableOpacity
+              style={{
+                padding: 12,
+                backgroundColor: "#1f2937",
+                borderRadius: 9999,
+                height: 48,
+                width: 48,
+                justifyContent: "center",
+                alignItems: "center",
+                marginLeft: 8,
+              }}
+              onPress={ClearMessage}
+            >
+              <Entypo name="controller-stop" size={24} color="white" />
+            </TouchableOpacity>
+          )}
+          {loading && <ActivityIndicator size="large" color="black" />}
         </View>
-      </KeyboardAvoidingView>
+      </View>
     </SafeAreaView>
   );
 };
 
-export default ChatScreen;
+export default GeminiChat;

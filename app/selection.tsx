@@ -127,7 +127,7 @@ const SelectionScreen = () => {
           </TouchableOpacity>
           <TouchableOpacity
             className="bg-red-100 px-6 py-3 rounded-lg"
-            onPress={() => router.replace("/")}
+            onPress={() => router.replace('/(root)/(tabs)/profile')}
           >
             <Text className="text-white font-bold">Apply</Text>
           </TouchableOpacity>

@@ -51,7 +51,7 @@ const Signup = () => {
     // if (success) {
     //   alert("Account created successfully! Logging in...");
     //   await login();
-      router.replace("/");
+      router.replace("/login");
     // } else {
     //   alert("Signup failed. Try again.");
     // }
