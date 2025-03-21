@@ -28,7 +28,7 @@ interface Message {
 }
 
 // API Key - In production, this should be stored securely
-const API_KEY = "AIzaSyCjAP08KIqM-bEEthOa2HvCaGsL_ok7uOs";
+const API_KEY = process.env.EXPO_PUBLIC_API_KEY;
 
 const AidlyChatbot = () => {
   // State management
