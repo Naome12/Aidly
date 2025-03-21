@@ -12,11 +12,11 @@ type PreferencesProps = {
 
 export default function Preferences({ setScreen }: PreferencesProps) {
   return (
-    <SafeAreaView className="flex-1 bg-black px-6 pt-12">
+    <SafeAreaView className="flex-1 px-6">
       <View className="flex-row ">
 
       <TouchableOpacity onPress={() => setScreen("preference")} className="mb-4">
-        <Ionicons name="chevron-back-outline" size={28} color="white" />
+        <Ionicons name="chevron-back-outline" size={28} color="#757474" />
       </TouchableOpacity>
       
       <Text className="text-red-100 text-2xl font-bold mb-6 px-6">Preferences</Text>
@@ -27,7 +27,6 @@ export default function Preferences({ setScreen }: PreferencesProps) {
         <ProfileOption label="Account Information" icon="user" onPress={() => setScreen("index")} extra="Change your account information" />
         <ProfileOption label="Password" icon="lock" onPress={() => setScreen("edit-info")} extra="Change your password" />
         <ProfileOption label="Payment Methods" icon="credit-card" extra="Add your credit/ Credit Cards" />
-        <ProfileOption label="Invite Your Friends" icon="users" onPress={() => setScreen("invite")} extra="Get $3 for each invitation" />
       </View>
     </SafeAreaView>
   );

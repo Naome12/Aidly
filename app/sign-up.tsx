@@ -7,7 +7,7 @@ import { useGlobalContext } from "@/lib/globalProvider";
 
 const Signup = () => {
   const router = useRouter();
-  const { isLogged, loading: userLoading } = useGlobalContext();
+  const { refetch,isLogged, loading: userLoading } = useGlobalContext();
 
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
@@ -20,7 +20,7 @@ const Signup = () => {
   // Redirect logged-in users
   useEffect(() => {
     if (isLogged) {
-      router.replace("/");
+      router.replace("/selection");
     }
   }, [isLogged]);
 
@@ -29,7 +29,7 @@ const Signup = () => {
     const result = await login(); // Assuming `login` handles Google login
     if (result) {
       alert("Logged in successfully with Google!");
-      router.replace("/"); // Redirect to home page after login
+      refetch() // Redirect to home page after login
     } else {
       alert("Google login failed. Please try again.");
     }
@@ -49,7 +49,7 @@ const Signup = () => {
     // setLoading(false);
 
     // if (success) {
-    //   alert("Account created successfully! Logging in...");
+      alert("Account created successfully! Logging in...");
     //   await login();
       router.replace("/login");
     // } else {

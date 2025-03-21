@@ -25,12 +25,12 @@ export default function ProfileDetails({ setScreen }: ProfileDetailsProps) {
   };
 
   return (
-    <SafeAreaView className="flex-1 bg-black px-6 pt-12">
+    <SafeAreaView className="flex-1 px-6 ">
       <TouchableOpacity
         onPress={() => setScreen("preference")}
         className="mb-4 flex-row items-center"
       >
-        <Ionicons name="chevron-back-outline" size={28} color="white" />
+        <Ionicons name="chevron-back-outline" size={28} color="#757474" />
         <Text className="font-nunitosans font-bold text-3xl text-red-100 px-6">
           Profile
         </Text>
@@ -44,7 +44,7 @@ export default function ProfileDetails({ setScreen }: ProfileDetailsProps) {
             height: 96,
             borderRadius: 48,
             borderWidth: 3,
-            borderColor: "#AEA1E9",
+            borderColor: "red",
           }}
           resizeMode="cover"
         />
@@ -54,7 +54,7 @@ export default function ProfileDetails({ setScreen }: ProfileDetailsProps) {
         <Text className="text-gray-400 text-sm">{user?.email}</Text>
       </View>
 
-      <View className="mt-8 space-y-6">
+      <View className="mt-1 space-y-4">
         <ProfileOption
           label="Preferences"
           icon="cog"

@@ -1,5 +1,5 @@
-import { View, Text } from "react-native";
-import React from "react";
+import { View, Text, Keyboard } from "react-native";
+import React, { useEffect, useState } from "react";
 import { Tabs } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 
@@ -12,7 +12,7 @@ interface TabProps {
 const TabIcon = ({ focused, icon, title }: TabProps) => {
   return (
     <View className="flex-1 mt-3 flex flex-col items-center">
-      <Ionicons name={icon} size={24} color={focused ? "#ff7417" : "#666876"} />
+      <Ionicons name={icon} size={24} color={focused ? "#FE1B1B" : "#666876"} />
       <Text
         className={`${
           focused ? "text-red-100 font-bold" : "text-gray-400 font-medium"
@@ -25,6 +25,23 @@ const TabIcon = ({ focused, icon, title }: TabProps) => {
 };
 
 const TabsLayout = () => {
+  const [isKeyboardVisible, setIsKeyboardVisible] = useState(false);
+
+  useEffect(() => {
+    const showSubscription = Keyboard.addListener("keyboardDidShow", () => {
+      setIsKeyboardVisible(true);
+    });
+
+    const hideSubscription = Keyboard.addListener("keyboardDidHide", () => {
+      setIsKeyboardVisible(false);
+    });
+
+    return () => {
+      showSubscription.remove();
+      hideSubscription.remove();
+    };
+  }, []);
+
   return (
     <Tabs
       screenOptions={{
@@ -35,6 +52,7 @@ const TabsLayout = () => {
           borderTopColor: "#ff7417",
           borderTopWidth: 2,
           minHeight: 70,
+          display: isKeyboardVisible ? "none" : "flex", // ✅ Hides tab bar when keyboard appears
         },
       }}
     >

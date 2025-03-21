@@ -19,7 +19,7 @@ import images from "@/constants/images";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 // 🔴 Replace with your actual API key
-const API_KEY = "AIzaSyDbfIGKrg7dt3tXUc_hyik1lkZe_G6DNzo";
+const API_KEY = process.env.EXPO_PUBLIC_API_KEY;
 
 const AidlyChatbot = () => {
   const [messages, setMessages] = useState([]);

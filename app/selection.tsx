@@ -39,7 +39,7 @@ const SelectionScreen = () => {
   ];
 
   return (
-    <SafeAreaView className="flex-1 bg-black-100 px-4 pt-10">
+    <SafeAreaView className="flex-1 bg-black-100 px-4">
       {/* Header */}
       <View className="flex-row items-center justify-between">
         <TouchableOpacity onPress={() => router.replace("/login")}>
@@ -127,7 +127,7 @@ const SelectionScreen = () => {
           </TouchableOpacity>
           <TouchableOpacity
             className="bg-red-100 px-6 py-3 rounded-lg"
-            onPress={() => router.replace('/(root)/(tabs)/profile')}
+            onPress={() => router.replace('/(root)/(tabs)/voice')}
           >
             <Text className="text-white font-bold">Apply</Text>
           </TouchableOpacity>

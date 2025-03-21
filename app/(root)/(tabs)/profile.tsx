@@ -18,10 +18,9 @@ export default function ProfileTab() {
 
   return (
     <ImageBackground source={images.profile} className="flex-1">
-    <View className="flex-1">
+    <View className="flex-1 pt-12">
       {screen === "preference" && <Preferences setScreen={setScreen} />}
       {screen === "edit-info" && <EditInfo setScreen={setScreen} />}
-      {screen === "invite" && <InviteFriend setScreen={setScreen} />}
       {screen === "index" && <ProfileDetails setScreen={setScreen} />}
     </View>
     </ImageBackground>
