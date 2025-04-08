@@ -1,9 +1,10 @@
 import { SplashScreen, Stack } from "expo-router";
-import { SafeAreaView } from "react-native"; // Import SafeAreaView
+import { SafeAreaView } from "react-native";
 import './globals.css';
 import { useEffect } from "react";
 import { useFonts } from "expo-font";
 import GlobalProvider from "@/lib/globalProvider";
+import { GestureHandlerRootView } from "react-native-gesture-handler"; // ✅ Import this
 
 export default function RootLayout() {
   const [fontsLoaded] = useFonts({
@@ -26,10 +27,12 @@ export default function RootLayout() {
   }
 
   return (
-    <GlobalProvider>
-      <SafeAreaView style={{ flex: 1 }}> {/* Wrap Stack with SafeAreaView */}
-        <Stack screenOptions={{ headerShown: false }} />
-      </SafeAreaView>
-    </GlobalProvider>
+    <GestureHandlerRootView style={{ flex: 1 }}> {/* ✅ Required wrapper for gestures */}
+      <GlobalProvider>
+        <SafeAreaView style={{ flex: 1 }}>
+          <Stack screenOptions={{ headerShown: false }} />
+        </SafeAreaView>
+      </GlobalProvider>
+    </GestureHandlerRootView>
   );
 }

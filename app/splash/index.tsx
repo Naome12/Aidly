@@ -16,7 +16,7 @@ const SplashScreen = () => {
     return () => clearTimeout(timer);
   }, [navigation]);
   return (
-    <ImageBackground source={images.profile} className='flex-1 justify-center items-center'>
+    <ImageBackground source={images.profile} className='flex-1 justify-center items-center' resizeMode={'cover'}>
       <Image source={images.aidly}/>
     </ImageBackground>
   )

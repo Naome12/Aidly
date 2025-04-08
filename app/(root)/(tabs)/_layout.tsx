@@ -1,25 +1,31 @@
-import { View, Text, Keyboard } from "react-native";
+import { View, ImageBackground, Keyboard, Platform, Image } from "react-native";
 import React, { useEffect, useState } from "react";
 import { Tabs } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
+import images from "@/constants/images";
+import icons from "@/constants/icons";
 
 interface TabProps {
   focused: boolean;
-  icon: keyof typeof Ionicons.glyphMap;
-  title: string;
+  icon: any
 }
 
-const TabIcon = ({ focused, icon, title }: TabProps) => {
+const TabIcon = ({ focused, icon}: TabProps) => {
   return (
-    <View className="flex-1 mt-3 flex flex-col items-center">
-      <Ionicons name={icon} size={24} color={focused ? "#FE1B1B" : "#666876"} />
-      <Text
-        className={`${
-          focused ? "text-red-100 font-bold" : "text-gray-400 font-medium"
-        } text-xs w-full text-center mt-1`}
-      >
-        {title}
-      </Text>
+    <View className="items-center justify-center mx-2 py-2 ">
+      {focused ? (
+        <ImageBackground
+          source={images.glow}
+          className="w-28 h-28 justify-center items-center rounded-full"
+          imageStyle={{ resizeMode: "contain", borderRadius: 999 }}
+        >
+          <Image source={icon}/>
+        </ImageBackground>
+      ) : (
+        <View className="w-12 h-12 justify-center items-center">
+          <Image source={icon} />
+        </View>
+      )}
     </View>
   );
 };
@@ -47,52 +53,54 @@ const TabsLayout = () => {
       screenOptions={{
         tabBarShowLabel: false,
         tabBarStyle: {
-          backgroundColor: "#111",
           position: "absolute",
-          borderTopColor: "#ff7417",
-          borderTopWidth: 2,
-          minHeight: 70,
-          display: isKeyboardVisible ? "none" : "flex", // ✅ Hides tab bar when keyboard appears
+          bottom: Platform.OS === "ios" ? 25 : 15,
+          left: 20,
+          right: 20,
+          height: 80,
+          backgroundColor: "#0d0d0d",
+          borderRadius: 40,
+          paddingTop: 20,
+          paddingHorizontal: 10,
+          marginHorizontal: 25,
+          elevation: 5,
+          borderTopWidth: 0,
+          display: isKeyboardVisible ? "none" : "flex",
         },
       }}
+      
     >
       <Tabs.Screen
         name="voice"
         options={{
-          title: "Voice",
           headerShown: false,
-          tabBarIcon: ({ focused }) => (
-            <TabIcon icon="mic-outline" focused={focused} title="Voice" />
-          ),
+          tabBarIcon: ({ focused }) => <TabIcon icon={icons.mic} focused={focused} />,
         }}
       />
       <Tabs.Screen
         name="chat"
         options={{
-          title: "Chat",
           headerShown: false,
           tabBarIcon: ({ focused }) => (
-            <TabIcon icon="chatbubble-ellipses-outline" focused={focused} title="Chat" />
+            <TabIcon icon={icons.chat} focused={focused} />
           ),
         }}
       />
       <Tabs.Screen
         name="symp-analysis"
         options={{
-          title: "Symp-Analysis",
           headerShown: false,
           tabBarIcon: ({ focused }) => (
-            <TabIcon icon="scan-outline" focused={focused} title="Analysis" />
+            <TabIcon icon={icons.scan} focused={focused} />
           ),
         }}
       />
       <Tabs.Screen
         name="profile"
         options={{
-          title: "Profile",
           headerShown: false,
           tabBarIcon: ({ focused }) => (
-            <TabIcon icon="person-outline" focused={focused} title="Profile" />
+            <TabIcon icon={icons.profile} focused={focused} />
           ),
         }}
       />

@@ -7,6 +7,7 @@ import mic from "@/assets/images/mic.png"
 import aiSpeaking from "@/assets/images/aiSpeaking.png"
 import aidly from "@/assets/images/aidly.png"
 import aidlyLogo from "@/assets/images/a.png"
+import glow from "@/assets/images/glow.png"
 
 export default {
   video,
@@ -17,5 +18,6 @@ export default {
   mic,
   aiSpeaking,
   aidly,
-  aidlyLogo
+  aidlyLogo,
+  glow
 };

@@ -23,6 +23,7 @@ const GeminiChat = () => {
 
   const API_KEY = process.env.EXPO_PUBLIC_API_KEY;
 
+
   useEffect(() => {
     const startChat = async () => {
       try {
@@ -30,7 +31,6 @@ const GeminiChat = () => {
         const model = genAI.getGenerativeModel({ model: "gemini-pro" });
         const prompt = "hello! ";
         const result = await model.generateContent(prompt);
-
         console.log("API Response:", result);
         const text = result.response ? result.response.text() : "Error fetching response";
         showMessage({
