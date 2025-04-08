@@ -36,7 +36,7 @@ const VoiceScreen = () => {
     }
   };
   return (
-    <SafeAreaView className="flex-1 bg-black-100 px-6">
+    <SafeAreaView className="flex-1 bg-black-100 px-6 ">
       {/* Status Text */}
       <View className="mt-10 mb-8">
         <Text className="text-white text-lg text-center">
