@@ -13,8 +13,7 @@ import {
   ImageBackground,
 } from "react-native";
 import * as GoogleGenerativeAI from "@google/generative-ai";
-import * as Speech from "expo-speech";
-import { FontAwesome } from "@expo/vector-icons";
+import Ionicons from '@expo/vector-icons/Ionicons';
 import { StatusBar } from "expo-status-bar";
 import images from "@/constants/images";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -25,7 +24,6 @@ const AidlyChatbot = () => {
   const [messages, setMessages] = useState([]);
   const [inputText, setInputText] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [isSpeaking, setIsSpeaking] = useState(false);
   const flatListRef = useRef(null);
   const genAI = useRef(null);
   const model = useRef(null);
@@ -66,16 +64,16 @@ const AidlyChatbot = () => {
         result?.response.text() ||
         "Hello! I'm Aidly AI, your health assistant. How can I help you today?";
 
-      setMessages([{ id: Date.now().toString(), text, isUser: false }]);
+      const timestamp = new Date().toLocaleTimeString(); // Timestamp for greeting
+      setMessages([{ id: Date.now().toString(), text, isUser: false, timestamp }]);
     } catch (error) {
       console.error("🚨 Error generating initial greeting:", error);
-      setMessages([
-        {
-          id: Date.now().toString(),
-          text: "Hello! I'm Aidly AI, your health assistant. How can I help you today?",
-          isUser: false,
-        },
-      ]);
+      setMessages([{
+        id: Date.now().toString(),
+        text: "Hello! I'm Aidly AI, your health assistant. How can I help you today?",
+        isUser: false,
+        timestamp: new Date().toLocaleTimeString(),
+      }]);
     }
     setIsLoading(false);
   };
@@ -84,10 +82,12 @@ const AidlyChatbot = () => {
   const sendMessage = async () => {
     if (!inputText.trim() || isLoading) return;
 
+    const timestamp = new Date().toLocaleTimeString(); // Timestamp for user message
     const userMessage = {
       id: Date.now().toString(),
       text: inputText,
       isUser: true,
+      timestamp,
     };
     setMessages((prev) => [...prev, userMessage]);
     setInputText("");
@@ -98,7 +98,6 @@ const AidlyChatbot = () => {
         throw new Error("Model not initialized correctly.");
       }
 
-      // Health-related filter in prompt
       const prompt = `
         You are Aidly AI, a smart, friendly, and engaging health assistant. Your job is to provide **accurate, clear, and interesting** answers to health-related questions in a cool, conversational tone. 
 
@@ -117,7 +116,7 @@ const AidlyChatbot = () => {
 
 🎤 **Voice-Ready**: Since your responses might be read aloud, make sure they sound natural and engaging.
 
----
+--- 
 🔥 **Example Q&A**
 👤 **User:** "How do I boost my energy levels?"  
 🤖 **Aidly:** "Great question! Your energy tank runs on three fuels: **sleep, food, and movement**. Skip one, and you’ll feel like a phone stuck at 10% battery!  
@@ -127,9 +126,7 @@ const AidlyChatbot = () => {
 
 What’s your go-to energy booster: coffee, naps, or something else?"  
 
-       
-        
-        Question: ${userMessage.text}
+Question: ${userMessage.text}
       `;
 
       const result = await model.current.generateContent(prompt);
@@ -145,9 +142,9 @@ What’s your go-to energy booster: coffee, naps, or something else?"
         id: Date.now().toString(),
         text: responseText,
         isUser: false,
+        timestamp: new Date().toLocaleTimeString(), // Timestamp for AI response
       };
       setMessages((prev) => [...prev, aiMessage]);
-      speakText(responseText);
     } catch (error) {
       console.error("🚨 API Error:", error.message);
       setMessages((prev) => [
@@ -156,6 +153,7 @@ What’s your go-to energy booster: coffee, naps, or something else?"
           id: Date.now().toString(),
           text: "Error processing your request. Please try again later.",
           isUser: false,
+          timestamp: new Date().toLocaleTimeString(),
         },
       ]);
     }
@@ -163,22 +161,11 @@ What’s your go-to energy booster: coffee, naps, or something else?"
     setIsLoading(false);
   };
 
-  // ✅ Text-to-Speech
-  const speakText = (text) => {
-    Speech.speak(text, {
-      language: "en",
-      pitch: 1.0,
-      rate: 0.9,
-      onStart: () => setIsSpeaking(true),
-      onDone: () => setIsSpeaking(false),
-    });
-  };
-
   return (
-    <ImageBackground source={images.profile} className="flex-1 p-5">
-      <SafeAreaView className="h-[85%] ">
+    <ImageBackground source={images.profile} className="flex-1 p-6">
+      <SafeAreaView className="h-[90%]">
         <StatusBar style="light" />
-        <View className="flex-row items-center justify-between pt-8 pb-4  border-b border-gray-700">
+        <View className="flex-row items-center justify-between pt-8 pb-4 border-b border-gray-700">
           <View className="flex-row px-4">
             <Image source={images.aidlyLogo} className="size-12" />
             <View className="px-2">
@@ -186,8 +173,9 @@ What’s your go-to energy booster: coffee, naps, or something else?"
               <Text className="text-primary-100">Online</Text>
             </View>
           </View>
-          <TouchableOpacity onPress={() => setMessages([])}>
-            <FontAwesome name="trash" size={18} color="#FE1B1B" />
+          <TouchableOpacity onPress={() => setMessages([])} className="flex-row">
+            <Ionicons name="call" size={25} color="white" className="p-3 bg-[#33333350] rounded-full" />
+            <Ionicons name="videocam-sharp" size={24} color="white" className="p-3 bg-[#33333350] rounded-full ml-3" />
           </TouchableOpacity>
         </View>
 
@@ -198,10 +186,11 @@ What’s your go-to energy booster: coffee, naps, or something else?"
           renderItem={({ item }) => (
             <View
               className={`p-3 rounded-lg max-w-60 m-2 font-nunitosans ${
-                item.isUser ? "bg-red-100 self-end" : "bg-[#34343470] self-start"
+                item.isUser ? "bg-red-100 self-end" : "bg-[#34343480] self-start"
               }`}
             >
               <Text className="text-white-100">{item.text}</Text>
+              <Text className="text-white-50 text-xs mt-1">{item.timestamp}</Text> {/* Timestamp */}
             </View>
           )}
           keyExtractor={(item) => item.id}
@@ -217,16 +206,8 @@ What’s your go-to energy booster: coffee, naps, or something else?"
         )}
 
         {/* Input Box */}
-        <KeyboardAvoidingView
-          behavior={Platform.OS === "ios" ? "padding" : "height"}
-          keyboardVerticalOffset={
-            Platform.OS === "ios" ? insets.bottom + 20 : 0
-          }
-        >
-          <View
-            className="flex-row items-center p-3 "
-            style={{ paddingBottom: insets.bottom }}
-          >
+        <KeyboardAvoidingView>
+          <View className="flex-row items-center p-3">
             <TextInput
               className="flex-1 p-5 text-white bg-[#33333380] rounded-lg"
               value={inputText}
@@ -235,13 +216,10 @@ What’s your go-to energy booster: coffee, naps, or something else?"
               placeholderTextColor="#888888"
               returnKeyType="send"
               onSubmitEditing={sendMessage}
+              style={{ marginBottom: 0 }}
             />
-
-            <TouchableOpacity
-              className="p-3 ml-2 bg-red-100 rounded-full"
-              onPress={sendMessage}
-            >
-              <FontAwesome name="send" size={18} color="#ffffff" />
+            <TouchableOpacity className="p-3 ml-2 bg-red-100 rounded-full" onPress={sendMessage}>
+              <Ionicons name="send" size={20} color="white" />
             </TouchableOpacity>
           </View>
         </KeyboardAvoidingView>
