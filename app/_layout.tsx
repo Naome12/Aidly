@@ -4,7 +4,7 @@ import './globals.css';
 import { useEffect } from "react";
 import { useFonts } from "expo-font";
 import GlobalProvider from "@/lib/globalProvider";
-import { GestureHandlerRootView } from "react-native-gesture-handler"; // ✅ Import this
+import { GestureHandlerRootView } from "react-native-gesture-handler"; 
 
 export default function RootLayout() {
   const [fontsLoaded] = useFonts({
@@ -14,6 +14,8 @@ export default function RootLayout() {
     "Amaranth-Regular": require('../assets/fonts/Amaranth-Regular.ttf'),
     "NunitoSans-Italic": require('../assets/fonts/NunitoSans-Italic-VariableFont_YTLC,opsz,wdth,wght.ttf'),
     "NunitoSans-Regular": require('../assets/fonts/NunitoSans-VariableFont_YTLC,opsz,wdth,wght.ttf'),
+    "Poppins-Regular": require('../assets/fonts/Poppins-Regular.ttf'),
+    "Poppins-Light": require('../assets/fonts/Poppins-Light.ttf'),
   });
 
   useEffect(() => {

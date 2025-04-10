@@ -9,7 +9,7 @@ type EditInfoProps = {
 
 export default function EditInfo({ setScreen }: EditInfoProps) {
   return (
-    <SafeAreaView className="flex-1 bg-black-100 px-6">
+    <SafeAreaView className="flex-1 px-6">
       {/* Back Button */}
       <View className="flex-row ">
         <TouchableOpacity
@@ -29,21 +29,22 @@ export default function EditInfo({ setScreen }: EditInfoProps) {
       <View className="space-y-4">
         <InputField
           placeholder="Enter name"
-          leftIcon={<Ionicons name="person-outline" size={20} color="white" />}
-          rightIcon={<Ionicons name="create-outline" size={20} color="white" />}
+          leftIcon={<Ionicons name="person-outline" size={20} color="#AEA1E9" />}
+          rightIcon={<Ionicons name="create-outline" size={20} color="#AEA1E9" />}
         />
         <InputField
           placeholder="Enter email"
-          leftIcon={<Ionicons name="mail-outline" size={20} color="white" />}
-          rightIcon={<Ionicons name="create-outline" size={20} color="white" />}
+          leftIcon={<Ionicons name="mail-outline" size={20} color="#AEA1E9" />}
+          rightIcon={<Ionicons name="create-outline" size={20} color="#AEA1E9" />}
+          
         />
         <InputField
           placeholder="Enter password"
           secure
           leftIcon={
-            <Ionicons name="lock-closed-outline" size={20} color="white" />
+            <Ionicons name="lock-closed-outline" size={20} color="#AEA1E9" />
           }
-          rightIcon={<Ionicons name="create-outline" size={20} color="white" />}
+          rightIcon={<Ionicons name="create-outline" size={20} color="#AEA1E9" />}
         />
       </View>
 

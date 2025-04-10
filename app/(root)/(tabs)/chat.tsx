@@ -10,6 +10,7 @@ import {
   Image,
   KeyboardAvoidingView,
   Platform,
+  ImageBackground,
 } from "react-native";
 import * as GoogleGenerativeAI from "@google/generative-ai";
 import * as Speech from "expo-speech";
@@ -18,7 +19,6 @@ import { StatusBar } from "expo-status-bar";
 import images from "@/constants/images";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
-// 🔴 Replace with your actual API key
 const API_KEY = process.env.EXPO_PUBLIC_API_KEY;
 
 const AidlyChatbot = () => {
@@ -40,7 +40,9 @@ const AidlyChatbot = () => {
   const initializeModel = async () => {
     try {
       genAI.current = new GoogleGenerativeAI.GoogleGenerativeAI(API_KEY);
-      model.current = genAI.current.getGenerativeModel({ model: "gemini-2.0-flash" });
+      model.current = genAI.current.getGenerativeModel({
+        model: "gemini-2.0-flash",
+      });
 
       console.log("✅ Google Generative AI model initialized successfully");
     } catch (error) {
@@ -60,7 +62,9 @@ const AidlyChatbot = () => {
         "Introduce yourself as Aidly AI, a health assistant. Only answer health-related questions."
       );
 
-      const text = result?.response.text() || "Hello! I'm Aidly AI, your health assistant. How can I help you today?";
+      const text =
+        result?.response.text() ||
+        "Hello! I'm Aidly AI, your health assistant. How can I help you today?";
 
       setMessages([{ id: Date.now().toString(), text, isUser: false }]);
     } catch (error) {
@@ -80,7 +84,11 @@ const AidlyChatbot = () => {
   const sendMessage = async () => {
     if (!inputText.trim() || isLoading) return;
 
-    const userMessage = { id: Date.now().toString(), text: inputText, isUser: true };
+    const userMessage = {
+      id: Date.now().toString(),
+      text: inputText,
+      isUser: true,
+    };
     setMessages((prev) => [...prev, userMessage]);
     setInputText("");
     setIsLoading(true);
@@ -130,9 +138,14 @@ What’s your go-to energy booster: coffee, naps, or something else?"
         throw new Error("Empty response from API.");
       }
 
-      const responseText = result?.response.text() || "Sorry, I couldn't process that request.";
+      const responseText =
+        result?.response.text() || "Sorry, I couldn't process that request.";
 
-      const aiMessage = { id: Date.now().toString(), text: responseText, isUser: false };
+      const aiMessage = {
+        id: Date.now().toString(),
+        text: responseText,
+        isUser: false,
+      };
       setMessages((prev) => [...prev, aiMessage]);
       speakText(responseText);
     } catch (error) {
@@ -162,73 +175,78 @@ What’s your go-to energy booster: coffee, naps, or something else?"
   };
 
   return (
-    <SafeAreaView className="h-[90%] bg-gray-900">
-      <StatusBar style="light" />
-      <View className="flex-row items-center justify-between pt-8 pb-4 bg-gray-800 border-b border-gray-700">
-        <View className="flex-row px-4">
-          <Image source={images.aidlyLogo} className="size-12" />
-          <View className="px-2">
-            <Text className="text-xl font-bold text-red-500">Aidly AI</Text>
-            <Text className="text-primary-100">Online</Text>
+    <ImageBackground source={images.profile} className="flex-1 p-5">
+      <SafeAreaView className="h-[85%] ">
+        <StatusBar style="light" />
+        <View className="flex-row items-center justify-between pt-8 pb-4  border-b border-gray-700">
+          <View className="flex-row px-4">
+            <Image source={images.aidlyLogo} className="size-12" />
+            <View className="px-2">
+              <Text className="text-xl font-bold text-red-100">Aidly AI</Text>
+              <Text className="text-primary-100">Online</Text>
+            </View>
           </View>
-        </View>
-        <TouchableOpacity onPress={() => setMessages([])}>
-          <FontAwesome name="trash" size={18} color="#FE1B1B" />
-        </TouchableOpacity>
-      </View>
-
-      {/* Messages List */}
-      <FlatList
-        ref={flatListRef}
-        data={messages}
-        renderItem={({ item }) => (
-          <View
-            className={`p-3 rounded-lg max-w-80 ${
-              item.isUser ? "bg-gray-700 self-end" : "bg-gray-800 self-start"
-            }`}
-          >
-            <Text className="text-white">{item.text}</Text>
-          </View>
-        )}
-        keyExtractor={(item) => item.id}
-        className="flex-1 px-3"
-        contentContainerStyle={{ paddingBottom: insets.bottom + 80 }}
-      />
-
-      {isLoading && (
-        <View className="flex-row items-center justify-center p-2 bg-gray-800">
-          <ActivityIndicator size="small" color="#ff3333" />
-          <Text className="text-white ml-2">Aidly is thinking...</Text>
-        </View>
-      )}
-
-      {/* Input Box */}
-      <KeyboardAvoidingView
-        behavior={Platform.OS === "ios" ? "padding" : "height"}
-        keyboardVerticalOffset={Platform.OS === "ios" ? insets.bottom + 40 : 0}
-      >
-        <View
-          className="flex-row items-center p-3 bg-gray-500 border-t border-gray-700"
-          style={{ paddingBottom: insets.bottom }}
-        >
-          <TextInput
-            className="flex-1 p-2 text-white bg-gray-700 rounded-lg"
-            value={inputText}
-            onChangeText={setInputText}
-            placeholder="Ask Aidly AI..."
-            placeholderTextColor="#888888"
-            returnKeyType="send"
-            onSubmitEditing={sendMessage}
-          />
-          <TouchableOpacity
-            className="p-3 ml-2 bg-red-500 rounded-full"
-            onPress={sendMessage}
-          >
-            <FontAwesome name="send" size={18} color="#ffffff" />
+          <TouchableOpacity onPress={() => setMessages([])}>
+            <FontAwesome name="trash" size={18} color="#FE1B1B" />
           </TouchableOpacity>
         </View>
-      </KeyboardAvoidingView>
-    </SafeAreaView>
+
+        {/* Messages List */}
+        <FlatList
+          ref={flatListRef}
+          data={messages}
+          renderItem={({ item }) => (
+            <View
+              className={`p-3 rounded-lg max-w-60 m-2 font-nunitosans ${
+                item.isUser ? "bg-red-100 self-end" : "bg-[#34343470] self-start"
+              }`}
+            >
+              <Text className="text-white-100">{item.text}</Text>
+            </View>
+          )}
+          keyExtractor={(item) => item.id}
+          className="flex-1 px-3"
+          contentContainerStyle={{ paddingBottom: insets.bottom + 80 }}
+        />
+
+        {isLoading && (
+          <View className="flex-row items-center justify-center p-2">
+            <ActivityIndicator size="small" color="#ff3333" />
+            <Text className="text-white-100 ml-2">Aidly is thinking...</Text>
+          </View>
+        )}
+
+        {/* Input Box */}
+        <KeyboardAvoidingView
+          behavior={Platform.OS === "ios" ? "padding" : "height"}
+          keyboardVerticalOffset={
+            Platform.OS === "ios" ? insets.bottom + 20 : 0
+          }
+        >
+          <View
+            className="flex-row items-center p-3 "
+            style={{ paddingBottom: insets.bottom }}
+          >
+            <TextInput
+              className="flex-1 p-5 text-white bg-[#33333380] rounded-lg"
+              value={inputText}
+              onChangeText={setInputText}
+              placeholder="Write now..."
+              placeholderTextColor="#888888"
+              returnKeyType="send"
+              onSubmitEditing={sendMessage}
+            />
+
+            <TouchableOpacity
+              className="p-3 ml-2 bg-red-100 rounded-full"
+              onPress={sendMessage}
+            >
+              <FontAwesome name="send" size={18} color="#ffffff" />
+            </TouchableOpacity>
+          </View>
+        </KeyboardAvoidingView>
+      </SafeAreaView>
+    </ImageBackground>
   );
 };
 

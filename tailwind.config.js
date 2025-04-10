@@ -12,14 +12,17 @@ module.exports = {
         "amaranth-italic": ["Amaranth-Italic", "sans-serif"],
         "nunitosans-italic": ["NunitoSans-Italic", "sans-serif"],
         nunitosans: ["NunitoSans-Regular", "sans-serif"],
+        poppins : ["Poppins-Regular"],
+        "poppins-light" : ["Poppins-Light"]
       },
       colors: {
         primary: {
-          100: "#AEA1E9",
+          100: "#AD9FEA",
         },
         red: {
-          100: "#FE1B1B",
-          // 100: "#ff7417",
+          DEFAULT: "#ff0000",
+          100: "#FF1818",
+          200: "#FF1417",
         },
         black: {
           DEFAULT: "#000000",
@@ -29,7 +32,7 @@ module.exports = {
         },
         white: {
           DEFAULT: "#ffffff",
-          100: "#A8A8A9",
+          100: "#F5F6FA",
         },
       },
     },

@@ -140,7 +140,6 @@ const Signup = () => {
           className="p-4 mt-2 flex flex-row items-center bg-white rounded-3xl"
           onPress={handleGoogleLogin}
           >
-          <Text className="text-white">Or Sign Up with </Text>
           <Text className="text-blue-400 font-bold">Continue with Google</Text>
         </TouchableOpacity>
         </View>
