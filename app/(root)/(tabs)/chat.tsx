@@ -9,11 +9,11 @@ import {
   SafeAreaView,
   Image,
   KeyboardAvoidingView,
-  Platform,
+  Keyboard,
   ImageBackground,
 } from "react-native";
 import * as GoogleGenerativeAI from "@google/generative-ai";
-import Ionicons from '@expo/vector-icons/Ionicons';
+import Ionicons from "@expo/vector-icons/Ionicons";
 import { StatusBar } from "expo-status-bar";
 import images from "@/constants/images";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -65,15 +65,19 @@ const AidlyChatbot = () => {
         "Hello! I'm Aidly AI, your health assistant. How can I help you today?";
 
       const timestamp = new Date().toLocaleTimeString(); // Timestamp for greeting
-      setMessages([{ id: Date.now().toString(), text, isUser: false, timestamp }]);
+      setMessages([
+        { id: Date.now().toString(), text, isUser: false, timestamp },
+      ]);
     } catch (error) {
       console.error("🚨 Error generating initial greeting:", error);
-      setMessages([{
-        id: Date.now().toString(),
-        text: "Hello! I'm Aidly AI, your health assistant. How can I help you today?",
-        isUser: false,
-        timestamp: new Date().toLocaleTimeString(),
-      }]);
+      setMessages([
+        {
+          id: Date.now().toString(),
+          text: "Hello! I'm Aidly AI, your health assistant. How can I help you today?",
+          isUser: false,
+          timestamp: new Date().toLocaleTimeString(),
+        },
+      ]);
     }
     setIsLoading(false);
   };
@@ -159,6 +163,7 @@ Question: ${userMessage.text}
     }
 
     setIsLoading(false);
+    Keyboard.dismiss();
   };
 
   return (
@@ -173,9 +178,22 @@ Question: ${userMessage.text}
               <Text className="text-primary-100">Online</Text>
             </View>
           </View>
-          <TouchableOpacity onPress={() => setMessages([])} className="flex-row">
-            <Ionicons name="call" size={25} color="white" className="p-3 bg-[#33333350] rounded-full" />
-            <Ionicons name="videocam-sharp" size={24} color="white" className="p-3 bg-[#33333350] rounded-full ml-3" />
+          <TouchableOpacity
+            onPress={() => setMessages([])}
+            className="flex-row"
+          >
+            <Ionicons
+              name="call"
+              size={25}
+              color="white"
+              className="p-3 bg-[#33333350] rounded-full"
+            />
+            <Ionicons
+              name="videocam-sharp"
+              size={24}
+              color="white"
+              className="p-3 bg-[#33333350] rounded-full ml-3"
+            />
           </TouchableOpacity>
         </View>
 
@@ -184,18 +202,29 @@ Question: ${userMessage.text}
           ref={flatListRef}
           data={messages}
           renderItem={({ item }) => (
-            <View
-              className={`p-3 rounded-lg max-w-60 m-2 font-nunitosans ${
-                item.isUser ? "bg-red-100 self-end" : "bg-[#34343480] self-start"
-              }`}
-            >
-              <Text className="text-white-100">{item.text}</Text>
-              <Text className="text-white-50 text-xs mt-1">{item.timestamp}</Text> {/* Timestamp */}
+            <View>
+              <View
+                className={`p-3 rounded-lg max-w-60 m-1 font-nunitosans ${
+                  item.isUser
+                    ? "bg-red-100 self-end"
+                    : "bg-[#34343480] self-start"
+                }`}
+              >
+                <Text className="text-white-100">{item.text}</Text>
+              </View>
+              <Text
+                className={`text-white-100 text-xs p-1 ${
+                  item.isUser ? "self-end" : "self-start"
+                }`}
+              >
+                {item.timestamp}
+              </Text>{" "}
             </View>
           )}
           keyExtractor={(item) => item.id}
           className="flex-1 px-3"
           contentContainerStyle={{ paddingBottom: insets.bottom + 80 }}
+          showsVerticalScrollIndicator={false}
         />
 
         {isLoading && (
@@ -218,7 +247,10 @@ Question: ${userMessage.text}
               onSubmitEditing={sendMessage}
               style={{ marginBottom: 0 }}
             />
-            <TouchableOpacity className="p-3 ml-2 bg-red-100 rounded-full" onPress={sendMessage}>
+            <TouchableOpacity
+              className="p-3 ml-2 bg-red-100 rounded-full"
+              onPress={sendMessage}
+            >
               <Ionicons name="send" size={20} color="white" />
             </TouchableOpacity>
           </View>

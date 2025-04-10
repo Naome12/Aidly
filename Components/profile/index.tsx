@@ -34,7 +34,6 @@ export default function ProfileDetails({ setScreen }: ProfileDetailsProps) {
 
   return (
     <SafeAreaView className="flex-1 px-4">
-      <ScrollView className="flex-grow py-20">
         <TouchableOpacity
           onPress={() => setScreen("preference")}
           className="mb-4 flex-row  justify-between"
@@ -87,7 +86,6 @@ export default function ProfileDetails({ setScreen }: ProfileDetailsProps) {
             isProfileScreen
           />
         </View>
-      </ScrollView>
     </SafeAreaView>
   );
 }
